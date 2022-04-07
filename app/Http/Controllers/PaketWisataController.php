@@ -41,7 +41,7 @@ class PaketWisataController extends Controller
             return response(['errors' => $validator->errors()->all()], 422);
         }
 
-        $paket = PaketWisata::create();
+        $paket = PaketWisata::create($req->toArray());
 
         return response($paket, 200);
     }

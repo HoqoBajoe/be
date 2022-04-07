@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Hash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -21,13 +22,21 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
+        
         $validasi= $request ->validate([
             'nama' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required|min:6'
         ]);
+        
+        
+
         try {
-            $response = User::create($validasi);
+            $response = User::create([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make($request->email)
+            ]);
             return response()->json([
                 'success' => true,
                 'message' => 'success'
@@ -36,7 +45,6 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Err',
                 'errors' => $e->getMessage()
-
             ],422);
         }
     }

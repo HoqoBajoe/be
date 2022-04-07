@@ -13,18 +13,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function allUser()
     {
         $data = User::all();
         return response()->json($data);
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $validasi= $request ->validate([
             'nama' => 'required',
@@ -46,14 +41,10 @@ class UserController extends Controller
         }
     }
 
-    public function show($id)
+    public function UserByID($id)
     {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
+        $user =  User::find($id);
+        return response()->json($user);
     }
 
 
@@ -82,7 +73,7 @@ class UserController extends Controller
     }
 
 
-    public function destroy($id)
+    public function delete($id)
     {
         try {
             $user =  User::find($id);

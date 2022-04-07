@@ -19,5 +19,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::resource('user',UserController::class);
-Route::post('/user/{id}',[UserController::class,'update']);
+// Route::resource('user',UserController::class);
+Route::prefix('user')->group(function(){
+    Route::get('',[UserController::class,'allUser']);
+    Route::get('/{id}',[UserController::class,'UserByID']);
+    Route::post('/create',[UserController::class,'create']);
+    Route::post('/update/{id}',[UserController::class,'update']);
+    Route::delete('/delete/{id}',[UserController::class,'delete']);
+});

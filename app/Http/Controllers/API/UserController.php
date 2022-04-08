@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -22,31 +23,27 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        
-        $validasi= $request ->validate([
-            'nama' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:6'
-        ]);
-        
-        
 
-        try {
-            $response = User::create([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'password' => Hash::make($request->email)
-            ]);
-            return response()->json([
-                'success' => true,
-                'message' => 'success'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Err',
-                'errors' => $e->getMessage()
-            ],422);
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users|max:255',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
+
+        $user = User::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()
+            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
 
     public function UserByID($id)
@@ -58,7 +55,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validasi= $request ->validate([
+        $validasi = $request->validate([
             'nama' => 'required',
             'email' => '',
             'password' => 'required'
@@ -66,7 +63,7 @@ class UserController extends Controller
         try {
             $response = User::find($id);
 
-            $response -> update($validasi);
+            $response->update($validasi);
             return response()->json([
                 'success' => true,
                 'message' => 'success'
@@ -76,7 +73,7 @@ class UserController extends Controller
                 'message' => 'Err',
                 'errors' => $e->getMessage()
 
-            ],422);
+            ], 422);
         }
     }
 
@@ -85,7 +82,7 @@ class UserController extends Controller
     {
         try {
             $user =  User::find($id);
-            $user -> delete();
+            $user->delete();
             return response()->json([
                 'success' => true,
                 'message' => 'Success'
@@ -94,9 +91,7 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Err',
                 'errors' => $e->getMessage()
-            ],422);
+            ], 422);
         }
     }
-
-
 }

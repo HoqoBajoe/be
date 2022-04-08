@@ -11,10 +11,11 @@ class AuthController extends Controller
     public function login(Request  $request){
         $request -> validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'device_name' => 'required'
         ]);
         $user  = User::where('email',$request -> email)->first();
-        if(!$user  || Hash::check($user->password, $request->password)){
+        if(!$user  || !Hash::check($user->password, $request->password)){
         // if(!$user){
             return response()->json([
                 'success' => false,
@@ -22,7 +23,7 @@ class AuthController extends Controller
             ],401);
         }
         $user->tokens()->delete();
-        $token= $user->createToken($request -> email)->plainTextToken;
+        $token= $user->createToken($request -> device_name)->plainTextToken;
         return response()->json([
             'success' => true,
             'message' => 'success',

@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function allUser()
     {
         $data = User::all();
@@ -25,20 +20,24 @@ class UserController extends Controller
         
         $validasi= $request ->validate([
             'nama' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:6'
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:6'
         ]);
-        
         
 
         try {
             $response = User::create([
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'password' => Hash::make($request->email)
+                'password' => Hash::make($request->password)
             ]);
+
+            $token = $response->createToken('auth_token')->plainTextToken;
+        
             return response()->json([
                 'success' => true,
+                'access_token' => $token, 
+                'token_type' => 'Bearer',
                 'message' => 'success'
             ]);
         } catch (\Exception $e) {

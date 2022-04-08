@@ -18,15 +18,8 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
     protected $hidden = [
-        
+        'password',
         'remember_token',
     ];
-    // static function getUser(){
-    //     $return = DB::table('user');
-    //     return $return;
-    // }
-
-
 }

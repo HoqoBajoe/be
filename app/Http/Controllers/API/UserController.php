@@ -26,7 +26,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users|max:255',
+            'email' => 'required|string|email|unique:user|max:255',
             'password' => 'required|string|min:6'
         ]);
 
@@ -51,7 +51,6 @@ class UserController extends Controller
         $user =  User::find($id);
         return response()->json($user);
     }
-
 
     public function update(Request $request, $id)
     {

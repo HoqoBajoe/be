@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\PaketWisataController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
+| Here is where you can register API routes for your application. The
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
@@ -30,6 +31,7 @@ Route::get('paket/{id}', [PaketWisataController::class, 'paketWisataByID']);
 // User Route
 Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::post('user/update/{id}', [UserController::class, 'update']);
+    Route::post('review', [ReviewController::class, 'add']);
 });
 
 // Admin and Super Admin route

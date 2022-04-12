@@ -17,21 +17,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Public Route
 Route::post('login', [AuthController::class, 'login']);
-Route::post('user/create', [UserController::class, 'create']);
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('user', [UserController::class, 'allUser']);
-    Route::get('user/{id}', [UserController::class, 'UserByID']);
+Route::post('register', [UserController::class, 'create']);
+Route::get('paket', [PaketWisataController::class, 'allPaketWisata']);
+Route::get('paket/{id}', [PaketWisataController::class, 'paketWisataByID']);
+
+// User Route
+Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::post('user/update/{id}', [UserController::class, 'update']);
+});
+
+// Admin and Super Admin route
+Route::group(['middleware' => ['auth:sanctum', 'role:super-admin,admin']], function () {
+    Route::get('user', [UserController::class, 'allUser']);
     Route::delete('user/delete/{id}', [UserController::class, 'delete']);
 });
-Route::prefix('admin')->group(function () {
+
+// Super Admin Route
+Route::group(['middleware' => ['auth:sanctum', 'role:super-admin']], function () {
     Route::post('paket/create', [PaketWisataController::class, 'create']);
-    Route::get('paket', [PaketWisataController::class, 'allPaketWisata']);
-    Route::get('paket/{id}', [PaketWisataController::class, 'paketWisataByID']);
     Route::put('paket/update/{id}', [PaketWisataController::class, 'update']);
     Route::delete('paket/delete/{id}', [PaketWisataController::class, 'delete']);
 });

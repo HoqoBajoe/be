@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_paket_wisata')->references('id')->on('paket_wisata');
+            $table->foreign('id_user')->references('id')->on('user');
         });
     }
 

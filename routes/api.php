@@ -34,7 +34,10 @@ Route::get('review/paket/{id_paket_wisata}', [ReviewController::class, 'getRevie
 // User Route
 Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
-    Route::post('user/update/{id}', [UserController::class, 'update']);
+    // Update User
+    Route::post('user/update/{id}', [UserController::class, 'updateUser']);
+
+    // Review
     Route::post('review/paket/{id_paket_wisata}', [ReviewController::class, 'addReview']);
 
     // Transaction (Not Yet)

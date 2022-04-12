@@ -53,7 +53,7 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function update(Request $request, $id)
+    public function updateUser(Request $request, $id)
     {
         $validasi = $request->validate([
             'nama' => 'required',

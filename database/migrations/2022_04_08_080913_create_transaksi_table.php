@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_paket_wisata');
+            $table->string('metode');
             $table->integer('pax');
             $table->bigInteger('total');
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users');

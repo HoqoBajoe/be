@@ -17,8 +17,8 @@ class UserController extends Controller
      */
     public function allUser()
     {
-        $data = User::all();
-        return response()->json($data);
+        $query = User::where('role', 'admin')->get();
+        return response()->json($query);
     }
 
     public function create(Request $request)
@@ -26,7 +26,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:user|max:255',
+            'email' => 'required|string|email|unique:users|max:255',
             'password' => 'required|string|min:6'
         ]);
 
@@ -37,7 +37,8 @@ class UserController extends Controller
         $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            "role" => 'user'
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -52,7 +53,7 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function update(Request $request, $id)
+    public function updateUser(Request $request, $id)
     {
         $validasi = $request->validate([
             'nama' => 'required',
@@ -76,7 +77,6 @@ class UserController extends Controller
         }
     }
 
-
     public function delete($id)
     {
         try {
@@ -92,5 +92,37 @@ class UserController extends Controller
                 'errors' => $e->getMessage()
             ], 422);
         }
+    }
+
+    // ADMIN
+    public function createAdmin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users|max:255',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $user = User::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            "role" => 'admin'
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()
+            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+    }
+
+    public function allAdmin()
+    {
+        $query = User::where('role', 'admin')->get();
+        return response()->json($query);
     }
 }

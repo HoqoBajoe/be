@@ -6,24 +6,49 @@ use App\Models\PaketWisata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-// Things to do :
-// - Response format masih salah
 
 class PaketWisataController extends Controller
 {
     public function allPaketWisata()
     {
-        $paket = PaketWisata::all();
-        return response($paket, 200);
+        $data = PaketWisata::all();
+
+        if ($data) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Paket Wisata successfully fetched!',
+                'data' => $data
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Paket Wisata found'
+            ], 204);
+        }
     }
 
     public function paketWisataByID($id)
     {
         try {
-            $paket = PaketWisata::FindOrFail($id);
-            return response($paket, 200);
+            $data = PaketWisata::FindOrFail($id);
+            if ($data) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Paket Wisata successfully fetched!',
+                    'data' => $data
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No Paket Wisata found'
+                ], 204);
+            }
         } catch (\Exception $e) {
-            return response(['message' => 'Paket Wisata not found!'], 404);
+            return response()->json([
+                'status' => false,
+                'message' => 'Error, please contact administrator!',
+                'errors' => $e->getMessage()
+            ], 204);
         }
     }
 
@@ -38,32 +63,35 @@ class PaketWisataController extends Controller
 
         ]);
         if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error on validation!',
+                'errors' => $validator->errors()
+            ], 422);
         }
-        $paket = PaketWisata::create($req->toArray());
+        $data = PaketWisata::create($req->toArray());
 
-        return response($paket, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Create paket wisata success!',
+            'data' => $data
+        ], 201);
     }
 
-    public function update(Request $req, $id)
+    public function update(Request $request, $id)
     {
-        $validasi = $req->validate([
-            'nama_paket' => '',
-            'destinasi_wisata' => '',
-            'deskripsi' => '',
-            'photo_wisata' => '',
-            'harga' => ''
-        ]);
-
+        $data = $request->only(['nama_paket', 'destinasi_wisata', 'deskripsi', 'photo_wisata', 'harga']);
         try {
             $res = PaketWisata::find($id);
-            $res->update($validasi);
+            $res->update($data);
             return response()->json([
                 'success' => true,
-                'message' => 'Update success!'
-            ]);
+                'message' => 'Update success!',
+                'data' => $data
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
+                'success' => false,
                 'message' => 'Update error!',
                 'errors' => $e->getMessage()
 
@@ -76,9 +104,16 @@ class PaketWisataController extends Controller
         try {
             $data = PaketWisata::findOrFail($id);
             $data->delete();
-            return response(['message' => 'Paket Wisata has been deleted!'], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Success'
+            ], 200);
         } catch (\Exception $e) {
-            return response(['message' => 'Something went wrong, Paket Wisata not found'], 404);
+            return response()->json([
+                'success' => false,
+                'message' => 'Err',
+                'errors' => $e->getMessage()
+            ], 422);
         }
     }
 }

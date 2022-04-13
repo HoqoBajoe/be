@@ -31,7 +31,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No user found'
-            ], 204);
+            ], 400);
         }
     }
 
@@ -77,7 +77,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No user found'
-            ], 204);
+            ], 400);
         }
     }
 
@@ -168,7 +168,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No admin found'
-            ], 204);
+            ], 400);
         }
     }
 }

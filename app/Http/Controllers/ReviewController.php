@@ -50,7 +50,7 @@ class ReviewController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No review found'
-            ], 204);
+            ], 400);
         }
     }
 
@@ -67,7 +67,7 @@ class ReviewController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No review found'
-            ], 204);
+            ], 400);
         }
     }
 

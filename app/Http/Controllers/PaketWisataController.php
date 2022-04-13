@@ -23,7 +23,7 @@ class PaketWisataController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No Paket Wisata found'
-            ], 204);
+            ], 400);
         }
     }
 
@@ -41,14 +41,14 @@ class PaketWisataController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'No Paket Wisata found'
-                ], 204);
+                ], 400);
             }
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Error, please contact administrator!',
                 'errors' => $e->getMessage()
-            ], 204);
+            ], 400);
         }
     }
 

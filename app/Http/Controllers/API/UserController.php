@@ -15,10 +15,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // USER
     public function allUser()
     {
-        $query = User::where('role', 'admin')->get();
-        return response()->json($query);
+        $data = User::where('role', 'user')->get();
+
+        if ($data) {
+            return response()->json([
+                'status' => true,
+                'message' => 'User successfully fetched!',
+                'data' => $data
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No user found'
+            ], 204);
+        }
     }
 
     public function create(Request $request)
@@ -31,7 +45,10 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], 422);
         }
 
         $user = User::create([
@@ -41,53 +58,68 @@ class UserController extends Controller
             "role" => 'user'
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()
-            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Register user success!'
+        ], 201);
     }
 
     public function UserByID($id)
     {
-        $user =  User::find($id);
-        return response()->json($user);
+        $data =  User::find($id);
+        if ($data) {
+            return response()->json([
+                'status' => true,
+                'message' => 'User successfully fetched!',
+                'data' => $data
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No user found'
+            ], 204);
+        }
     }
 
     public function updateUser(Request $request, $id)
     {
-        $validasi = $request->validate([
-            'nama' => 'required',
-            'email' => '',
-            'password' => 'required'
-        ]);
-        try {
-            $response = User::find($id);
-
-            $response->update($validasi);
+        if (auth()->user()->id == $id) {
+            $data = $request->only(['nama', 'email', 'password']);
+            try {
+                $response = User::findOrFail($id);
+                $response->update($data);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'success',
+                    'data' => $response
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Update user error!',
+                    'errors' => $e->getMessage()
+                ], 422);
+            }
+        } else {
             return response()->json([
-                'success' => true,
-                'message' => 'success'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Err',
-                'errors' => $e->getMessage()
-
-            ], 422);
+                'success' => false,
+                'message' => 'Unauthorized, you cannot update other user!'
+            ], 401);
         }
     }
 
     public function delete($id)
     {
         try {
-            $user =  User::find($id);
+            $user =  User::findOrFail($id);
             $user->delete();
             return response()->json([
                 'success' => true,
                 'message' => 'Success'
-            ]);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
+                'success' => false,
                 'message' => 'Err',
                 'errors' => $e->getMessage()
             ], 422);
@@ -104,9 +136,11 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], 400);
         }
-
         $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
@@ -114,15 +148,27 @@ class UserController extends Controller
             "role" => 'admin'
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()
-            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Register user success!'
+        ], 201);
     }
 
     public function allAdmin()
     {
-        $query = User::where('role', 'admin')->get();
-        return response()->json($query);
+        $data = User::where('role', 'admin')->get();
+
+        if ($data) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Admin successfully fetched!',
+                'data' => $data
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No admin found'
+            ], 204);
+        }
     }
 }

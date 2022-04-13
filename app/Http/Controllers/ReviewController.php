@@ -18,7 +18,10 @@ class ReviewController extends Controller
 
         ]);
         if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], 422);
         }
         $review = Review::create([
             'id_user' => auth()->user()->id,
@@ -27,21 +30,27 @@ class ReviewController extends Controller
             'review' => $request->review
         ]);
 
-        return response($review, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Review has been created, please wait admin to accept your review!'
+        ], 201);
     }
 
     public function getAllReview()
     {
+        // For Admin
         $data = DB::select('select review.id,review.id_user,paket_wisata.nama_paket,users.nama as nama_user,review.stars,review.review,review.status,review.created_at from ((review inner join users on review.id_user = users.id) inner join paket_wisata on review.id_paket_wisata = paket_wisata.id) ORDER BY review.id;');
         if ($data) {
             return response()->json([
+                'status' => true,
                 'message' => 'Review successfully fetched!',
                 'data' => $data
             ], 200);
         } else {
             return response()->json([
+                'status' => false,
                 'message' => 'No review found'
-            ], 400);
+            ], 204);
         }
     }
 
@@ -50,21 +59,23 @@ class ReviewController extends Controller
         $data = DB::select('select review.id,review.id_user,paket_wisata.nama_paket,users.nama as nama_user,review.stars,review.review,review.status,review.created_at from ((review inner join users on review.id_user = users.id) inner join paket_wisata on review.id_paket_wisata = paket_wisata.id) where paket_wisata.id = ' . $id_paket_wisata . ' and review.status = true');
         if ($data) {
             return response()->json([
+                'status' => false,
                 'message' => 'Review successfully fetched!',
                 'data' => $data
             ], 200);
         } else {
             return response()->json([
+                'status' => false,
                 'message' => 'No review found'
-            ], 400);
+            ], 204);
         }
     }
 
     public function acceptReview($id)
     {
         try {
-            $res = Review::find($id);
-            $res->update([
+            $data = Review::find($id);
+            $data->update([
                 'status' => true
             ]);
             return response()->json([
@@ -73,9 +84,9 @@ class ReviewController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Update error!',
+                'status' => false,
+                'message' => 'Accept review error!',
                 'errors' => $e->getMessage()
-
             ], 422);
         }
     }
@@ -91,9 +102,10 @@ class ReviewController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
+                'success' => false,
                 'message' => 'Something went wrong, Review not found!',
                 'errors' => $e->getMessage()
-            ], 404);
+            ], 409);
         }
     }
 }

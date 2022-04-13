@@ -19,6 +19,9 @@ class CheckRole
         if (in_array($request->user()->role, $roles)) {
             return $next($request);
         }
-        return response(['message' => 'Unauthorized'], 401);
+        return response([
+            'status' => 'false',
+            'message' => 'Unauthorized,please contact administrator!'
+        ], 401);
     }
 }

@@ -23,8 +23,8 @@ return new class extends Migration
             $table->boolean('status')->default(false);
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('id_paket_wisata')->references('id')->on('paket_wisata');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_paket_wisata')->references('id')->on('paket_wisata')->onDelete('cascade');
         });
     }
 

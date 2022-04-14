@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaksi', function (Blueprint $table) {
+        Schema::create('review', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_paket_wisata');
-            $table->string('metode');
-            $table->integer('pax');
-            $table->bigInteger('total');
+            $table->integer('stars');
+            $table->longText('review');
             $table->boolean('status')->default(false);
             $table->timestamps();
 
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi');
+        Schema::dropIfExists('review');
     }
 };

@@ -18,20 +18,25 @@ class AuthController extends Controller
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized'
+                'message' => 'Wrong email/password'
             ], 401);
 
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = User::where('email', $request->email)->firstOrFail();
 
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'success' => true,
-            'message' => 'success',
-            'token' => $token
+            'message' => 'Login success!',
+            'data' => [
+                'id' => $user->id,
+                'nama' => $user->nama,
+                'role' => $user->role,
+                'token' => $token,
+            ]
         ], 200);
 
     }

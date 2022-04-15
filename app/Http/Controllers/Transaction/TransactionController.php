@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
-    //
     public function createTransaction(Request $request, $id_paket_wisata)
     {
         $validator = Validator::make($request->all(), [

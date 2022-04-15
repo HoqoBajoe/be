@@ -9,9 +9,17 @@ use Illuminate\Support\Facades\Validator;
 
 class PaketWisataController extends Controller
 {
-    public function allPaketWisata()
+    public function allPaketWisata(Request $request)
     {
-        $data = PaketWisata::all();
+        $data = PaketWisata::all()->sortBy("id");
+
+        if ($request->has('nama_paket')) {
+            $data = PaketWisata::where('nama_paket', 'ILIKE', '%' . $request->nama_paket  . '%')->sortBy();
+        }
+
+        if ($request->has('harga')) {
+            $data = PaketWisata::orderBy('harga', $request->harga)->get();
+        }
 
         if ($data) {
             return response()->json([

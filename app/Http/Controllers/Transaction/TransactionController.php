@@ -45,7 +45,7 @@ class TransactionController extends Controller
         $data = DB::table('transaksi')
             ->join('users', 'transaksi.id_user', '=', 'users.id')
             ->join('paket_wisata', 'transaksi.id_paket_wisata', '=', 'paket_wisata.id')
-            ->select('transaksi.id', 'users.nama', 'paket_wisata.nama_paket', 'transaksi.metode', 'transaksi.pax', 'paket_wisata.harga', 'transaksi.total', 'transaksi.status')
+            ->select('transaksi.id', 'users.nama', 'paket_wisata.nama_paket', 'transaksi.metode', 'transaksi.pax', 'paket_wisata.harga', 'transaksi.total', 'transaksi.status', 'transaksi.created_at')
             ->get();
 
         if (!$data->isEmpty()) {
@@ -58,7 +58,7 @@ class TransactionController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No transaction found'
-            ], 400);
+            ], 404);
         }
     }
 
@@ -68,7 +68,7 @@ class TransactionController extends Controller
         $data = DB::table('transaksi')
             ->join('users', 'transaksi.id_user', '=', 'users.id')
             ->join('paket_wisata', 'transaksi.id_paket_wisata', '=', 'paket_wisata.id')
-            ->select('paket_wisata.nama_paket', 'transaksi.metode', 'transaksi.pax', 'paket_wisata.harga', 'transaksi.total', 'transaksi.status')
+            ->select('paket_wisata.nama_paket', 'transaksi.metode', 'transaksi.pax', 'paket_wisata.harga', 'transaksi.total', 'transaksi.status', 'transaksi.created_at')
             ->where('transaksi.id_user', '=', auth()->user()->id)
             ->get();
 
@@ -82,7 +82,7 @@ class TransactionController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No transaction found'
-            ], 400);
+            ], 404);
         }
     }
 

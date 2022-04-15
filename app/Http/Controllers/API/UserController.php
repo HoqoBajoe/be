@@ -19,7 +19,7 @@ class UserController extends Controller
     // USER
     public function allUser()
     {
-        $data = User::where('role', 'user')->get();
+        $data = User::where('role', 'user')->orderBy('id', 'ASC')->get();
 
         if ($data) {
             return response()->json([
@@ -64,19 +64,20 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function UserByID($id)
+    public function getMyProfile()
     {
-        $data =  User::find($id);
-        if ($data) {
+        try {
+            $data =  User::find(auth()->user()->id);
             return response()->json([
                 'status' => true,
                 'message' => 'User successfully fetched!',
                 'data' => $data
             ], 200);
-        } else {
+        } catch (\Throwable $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No user found'
+                'message' => 'Error,contact administrator!',
+                'errors' => $e->getMessage()
             ], 400);
         }
     }

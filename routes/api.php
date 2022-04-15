@@ -47,6 +47,11 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('history', [TransactionController::class, 'historyTransaction']);
 });
 
+// Logout Route for every role user
+Route::group(['middleware' => ['auth:sanctum', 'role:user,admin,super-admin']], function () {
+    Route::get('logout', [UserController::class, 'logout']);
+});
+
 // Admin and Super Admin route
 Route::group(['middleware' => ['auth:sanctum', 'role:super-admin,admin']], function () {
 

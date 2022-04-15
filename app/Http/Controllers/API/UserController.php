@@ -84,7 +84,7 @@ class UserController extends Controller
     public function updateUser(Request $request, $id)
     {
         if (auth()->user()->id == $id) {
-            $data = $request->only(['nama', 'email', 'password']);
+            $data = $request->only(['nama', 'email']);
             try {
                 $response = User::findOrFail($id);
                 $response->update($data);
@@ -121,6 +121,23 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Err',
+                'errors' => $e->getMessage()
+            ], 422);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Logged out success!'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error logout, please try again!',
                 'errors' => $e->getMessage()
             ], 422);
         }

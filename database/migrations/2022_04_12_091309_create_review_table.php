@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_paket_wisata');
             $table->integer('stars');
             $table->longText('review');
-            $table->boolean('status')->default(false);
+            $table->string('status')->default('Pending');
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');;

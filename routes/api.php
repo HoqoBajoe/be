@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     // Transaction (Not Yet)
     Route::post('transaction/paket/{id_paket_wisata}', [TransactionController::class, 'createTransaction']);
-    Route::get('transaction/history', [TransactionController::class, 'historyTransaction']);
+    Route::get('history', [TransactionController::class, 'historyTransaction']);
 });
 
 // Admin and Super Admin route
@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:super-admin']], function ()
     Route::get('admin/all', [UserController::class, 'allAdmin']);
 
     // Transaction (Not Yet)
-    Route::put('transaction/{id}', [TransactionController::class, 'acceptTransaction']);
-    Route::delete('transaction/{id}', [TransactionController::class, 'rejectTransaction']);
+    Route::get('transaction', [TransactionController::class, 'allTransaction']);
+    Route::put('transaction/accept/{id}', [TransactionController::class, 'acceptTransaction']);
+    Route::put('transaction/reject/{id}', [TransactionController::class, 'rejectTransaction']);
 });

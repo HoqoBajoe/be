@@ -76,7 +76,7 @@ class ReviewController extends Controller
         try {
             $data = Review::find($id);
             $data->update([
-                'status' => true
+                'status' => 'Accepted'
             ]);
             return response()->json([
                 'success' => true,
@@ -95,7 +95,9 @@ class ReviewController extends Controller
     {
         try {
             $data = Review::findOrFail($id);
-            $data->delete();
+            $data->update([
+                'status' => 'Rejected'
+            ]);
             return response()->json([
                 'success' => true,
                 'message' => 'Review has been reject/deleted!'

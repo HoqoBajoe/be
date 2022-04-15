@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
 {
-    //
     public function addReview(Request $request, $id_paket_wisata)
     {
         $validator = Validator::make($request->all(), [

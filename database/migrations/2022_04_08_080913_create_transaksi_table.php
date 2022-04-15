@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('metode');
             $table->integer('pax');
             $table->bigInteger('total');
-            $table->boolean('status')->default(false);
+            $table->string('status')->default('Pending');
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');

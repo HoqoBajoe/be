@@ -34,15 +34,17 @@ Route::get('review/paket/{id_paket_wisata}', [ReviewController::class, 'getRevie
 // User Route
 Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
-    // Update User
+    // Update and Logout User
+    Route::get('account', [UserController::class, 'getMyProfile']);
     Route::put('user/update/{id}', [UserController::class, 'updateUser']);
+    Route::get('logout', [UserController::class, 'logout']);
 
     // Review
     Route::post('review/paket/{id_paket_wisata}', [ReviewController::class, 'addReview']);
 
-    // Transaction (Not Yet)
+    // Transaction
     Route::post('transaction/paket/{id_paket_wisata}', [TransactionController::class, 'createTransaction']);
-    Route::get('transaction/history', [TransactionController::class, 'historyTransaction']);
+    Route::get('history', [TransactionController::class, 'historyTransaction']);
 });
 
 // Admin and Super Admin route
@@ -54,8 +56,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:super-admin,admin']], funct
 
     // Review
     Route::get('review/all', [ReviewController::class, 'getAllReview']);
-    Route::put('review/{id}', [ReviewController::class, 'acceptReview']);
-    Route::delete('review/{id}', [ReviewController::class, 'rejectReview']);
+    Route::put('review/accept/{id}', [ReviewController::class, 'acceptReview']);
+    Route::put('review/reject/{id}', [ReviewController::class, 'rejectReview']);
 });
 
 // Super Admin Route
@@ -70,7 +72,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:super-admin']], function ()
     Route::post('admin/create', [UserController::class, 'createAdmin']);
     Route::get('admin/all', [UserController::class, 'allAdmin']);
 
-    // Transaction (Not Yet)
-    Route::put('transaction/{id}', [TransactionController::class, 'acceptTransaction']);
-    Route::delete('transaction/{id}', [TransactionController::class, 'rejectTransaction']);
+    // Transaction
+    Route::get('transaction', [TransactionController::class, 'allTransaction']);
+    Route::put('transaction/accept/{id}', [TransactionController::class, 'acceptTransaction']);
+    Route::put('transaction/reject/{id}', [TransactionController::class, 'rejectTransaction']);
 });

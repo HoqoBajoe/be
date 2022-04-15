@@ -14,7 +14,7 @@ class PaketWisataController extends Controller
         $data = PaketWisata::all()->sortBy("id");
 
         if ($request->has('nama_paket')) {
-            $data = PaketWisata::where('nama_paket', 'ILIKE', '%' . $request->nama_paket  . '%')->sortBy();
+            $data = PaketWisata::where('nama_paket', 'ILIKE', '%' . $request->nama_paket  . '%')->get();
         }
 
         if ($request->has('harga')) {

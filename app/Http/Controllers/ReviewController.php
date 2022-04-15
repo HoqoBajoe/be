@@ -38,9 +38,13 @@ class ReviewController extends Controller
 
     public function getAllReview()
     {
-        // For Admin
-        $data = DB::select('select review.id,review.id_user,paket_wisata.nama_paket,users.nama as nama_user,review.stars,review.review,review.status,review.created_at from ((review inner join users on review.id_user = users.id) inner join paket_wisata on review.id_paket_wisata = paket_wisata.id) ORDER BY review.id;');
-        if ($data) {
+        $data = DB::table('review')
+            ->join('users', 'review.id_user', '=', 'users.id')
+            ->join('paket_wisata', 'review.id_paket_wisata', '=', 'paket_wisata.id')
+            ->select('review.id', 'users.nama', 'paket_wisata.nama_paket', 'review.stars', 'review.review', 'review.status', 'review.created_at')
+            ->orderBy('review.id', 'ASC')
+            ->get();
+        if (!$data->isEmpty()) {
             return response()->json([
                 'status' => true,
                 'message' => 'Review successfully fetched!',
@@ -50,16 +54,22 @@ class ReviewController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No review found'
-            ], 400);
+            ], 404);
         }
     }
 
     public function getReviewByPaket($id_paket_wisata)
     {
-        $data = DB::select('select review.id,review.id_user,paket_wisata.nama_paket,users.nama as nama_user,review.stars,review.review,review.status,review.created_at from ((review inner join users on review.id_user = users.id) inner join paket_wisata on review.id_paket_wisata = paket_wisata.id) where paket_wisata.id = ' . $id_paket_wisata . ' and review.status = true');
-        if ($data) {
+        $data = DB::table('review')
+            ->join('users', 'review.id_user', '=', 'users.id')
+            ->join('paket_wisata', 'review.id_paket_wisata', '=', 'paket_wisata.id')
+            ->select('review.id', 'users.nama', 'paket_wisata.nama_paket', 'review.stars', 'review.review', 'review.status', 'review.created_at')
+            ->where('review.id', '=', $id_paket_wisata)
+            ->orderBy('review.id', 'ASC')
+            ->get();
+        if (!$data->isEmpty()) {
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => 'Review successfully fetched!',
                 'data' => $data
             ], 200);
@@ -67,7 +77,7 @@ class ReviewController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No review found'
-            ], 400);
+            ], 404);
         }
     }
 
@@ -76,7 +86,7 @@ class ReviewController extends Controller
         try {
             $data = Review::find($id);
             $data->update([
-                'status' => true
+                'status' => 'Accepted'
             ]);
             return response()->json([
                 'success' => true,
@@ -95,10 +105,12 @@ class ReviewController extends Controller
     {
         try {
             $data = Review::findOrFail($id);
-            $data->delete();
+            $data->update([
+                'status' => 'Rejected'
+            ]);
             return response()->json([
                 'success' => true,
-                'message' => 'Review has been reject/deleted!'
+                'message' => 'Review has been reject!!'
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

@@ -16,5 +16,6 @@ class Transaction extends Model
         'metode',
         'pax',
         'total',
+        'status',
     ];
 }

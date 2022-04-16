@@ -11,17 +11,26 @@ class PaketWisataController extends Controller
 {
     public function allPaketWisata(Request $request)
     {
-        $data = PaketWisata::all()->sortBy("id");
+        $data = PaketWisata::orderBy('id')->get();
 
-        if ($request->has('nama_paket')) {
+        $nama_paket = $request->has('nama_paket');
+        $harga = $request->has('harga');
+
+        if ($nama_paket) {
             $data = PaketWisata::where('nama_paket', 'ILIKE', '%' . $request->nama_paket  . '%')->get();
         }
 
-        if ($request->has('harga')) {
+        if ($harga) {
             $data = PaketWisata::orderBy('harga', $request->harga)->get();
         }
 
-        if ($data) {
+        if ($harga && $nama_paket) {
+            $data = PaketWisata::where('nama_paket', 'ILIKE', '%' . $request->nama_paket  . '%')
+                ->orderBy('harga', $request->harga)
+                ->get();
+        }
+
+        if (!$data->isEmpty()) {
             return response()->json([
                 'status' => true,
                 'message' => 'Paket Wisata successfully fetched!',
@@ -39,7 +48,7 @@ class PaketWisataController extends Controller
     {
         try {
             $data = PaketWisata::FindOrFail($id);
-            if ($data) {
+            if (!$data->isEmpty()) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Paket Wisata successfully fetched!',
@@ -63,12 +72,11 @@ class PaketWisataController extends Controller
     public function create(Request $req)
     {
         $validator = Validator::make($req->all(), [
-            'nama_paket' => 'required',
+            'nama_paket' => 'required|unique:paket_wisata',
             'destinasi_wisata' => 'required',
             'deskripsi' => 'required',
             'photo_wisata' => 'required',
             'harga' => 'required',
-
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -89,6 +97,17 @@ class PaketWisataController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only(['nama_paket', 'destinasi_wisata', 'deskripsi', 'photo_wisata', 'harga']);
+
+        $validator = Validator::make($data, [
+            'nama_paket' => 'unique:paket_wisata',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error on validation!',
+                'errors' => $validator->errors()
+            ], 422);
+        }
         try {
             $res = PaketWisata::find($id);
             $res->update($data);

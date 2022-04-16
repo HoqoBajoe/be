@@ -85,10 +85,26 @@ class UserController extends Controller
     public function updateUser(Request $request, $id)
     {
         if (auth()->user()->id == $id) {
-            $data = $request->only(['nama', 'email']);
+            $data = $request->only(['nama', 'email', 'password']);
+
+            $validator = Validator::make($data, [
+                'nama' => 'unique:users',
+                'email' => 'unique:users',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error on validation!',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
             try {
                 $response = User::findOrFail($id);
-                $response->update($data);
+                $response->update([
+                    'nama' => $request->nama,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
                 return response()->json([
                     'success' => true,
                     'message' => 'success',

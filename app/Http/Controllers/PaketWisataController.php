@@ -47,8 +47,8 @@ class PaketWisataController extends Controller
     public function paketWisataByID($id)
     {
         try {
-            $data = PaketWisata::FindOrFail($id);
-            if (!$data->isEmpty()) {
+            $data = PaketWisata::find($id);
+            if ($data) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Paket Wisata successfully fetched!',

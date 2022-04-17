@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             PaketWisataSeeder::class,
-            ReviewSeeder::class
+            ReviewSeeder::class,
+            TransactionSeeder::class
         ]);
     }
 }

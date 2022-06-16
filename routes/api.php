@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     // Update and Logout User
     Route::get('account', [UserController::class, 'getMyProfile']);
-    Route::put('user/update/{id}', [UserController::class, 'updateUser']);
+    Route::put('user/update', [UserController::class, 'updateUser']);
     Route::get('logout', [UserController::class, 'logout']);
 
     // Review

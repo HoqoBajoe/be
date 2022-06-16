@@ -82,46 +82,39 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser(Request $request, $id)
+    public function updateUser(Request $request)
     {
-        if (auth()->user()->id == $id) {
-            $data = $request->only(['nama', 'email', 'password']);
+        $data = $request->only(['nama', 'email', 'password']);
 
-            $validator = Validator::make($data, [
-                'nama' => 'unique:users',
-                'email' => 'unique:users',
-            ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Error on validation!',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-            try {
-                $response = User::findOrFail($id);
-                $response->update([
-                    'nama' => $request->nama,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                ]);
-                return response()->json([
-                    'success' => true,
-                    'message' => 'success',
-                    'data' => $response
-                ], 200);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Update user error!',
-                    'errors' => $e->getMessage()
-                ], 422);
-            }
-        } else {
+        $validator = Validator::make($data, [
+            'nama' => 'unique:users',
+            'email' => 'unique:users',
+        ]);
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized, you cannot update other user!'
-            ], 401);
+                'message' => 'Error on validation!',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        try {
+            $response = User::findOrFail(auth()->user()->id);
+            $response->update([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'success',
+                'data' => $response
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Update user error!',
+                'errors' => $e->getMessage()
+            ], 422);
         }
     }
 

@@ -63,7 +63,7 @@ class ReviewController extends Controller
             ->join('users', 'review.id_user', '=', 'users.id')
             ->join('paket_wisata', 'review.id_paket_wisata', '=', 'paket_wisata.id')
             ->select('review.id', 'users.nama', 'paket_wisata.nama_paket', 'review.stars', 'review.review', 'review.status', 'review.created_at')
-            ->where('review.id', '=', $id_paket_wisata)
+            ->where('review.id_paket_wisata', '=', $id_paket_wisata)
             ->orderBy('review.id', 'ASC')
             ->get();
         if (!$data->isEmpty()) {

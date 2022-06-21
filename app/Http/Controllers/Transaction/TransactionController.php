@@ -22,11 +22,11 @@ class TransactionController extends Controller
             return response(['errors' => $validator->errors()->all()], 422);
         }
         // Get Harga Paket Wisata
-        $paket_wisata = PaketWisata::findOrFail($id_paket_wisata)->first();
+        $paket_wisata = PaketWisata::findOrFail($id_paket_wisata);
 
         $data = Transaction::create([
             'id_user' => auth()->user()->id,
-            'id_paket_wisata' => $id_paket_wisata,
+            'id_paket_wisata' => $paket_wisata->id,
             'metode' => $request->metode,
             'pax' => $request->pax,
             'total' => $paket_wisata->harga * $request->pax,

@@ -21,7 +21,7 @@ class TransactionSeeder extends Seeder
             'id_paket_wisata' => 1,
             'metode' => 'Virtual Account BNI',
             'pax' => 3,
-            'total' => 100000,
+            'total' => 1000000,
             'status' => 'Accepted'
         ]);
         Transaction::create([
@@ -29,7 +29,7 @@ class TransactionSeeder extends Seeder
             'id_paket_wisata' => 2,
             'metode' => 'Virtual Account BRI',
             'pax' => 2,
-            'total' => 100000,
+            'total' => 1600000,
             'status' => 'Pending'
         ]);
     }

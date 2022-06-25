@@ -84,10 +84,9 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
-        $data = $request->only(['nama', 'email', 'password']);
+        $data = $request->only(['nama', 'email']);
 
         $validator = Validator::make($data, [
-            'nama' => 'unique:users',
             'email' => 'unique:users',
         ]);
         if ($validator->fails()) {
@@ -102,7 +101,6 @@ class UserController extends Controller
             $response->update([
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
             ]);
             return response()->json([
                 'success' => true,

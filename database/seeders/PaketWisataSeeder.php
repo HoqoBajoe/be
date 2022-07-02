@@ -46,5 +46,50 @@ class PaketWisataSeeder extends Seeder
             ],
             "harga" => 800000
         ]);
+        PaketWisata::create([
+            "nama_paket" => "Paket Hoqo Bajoe I",
+            "destinasi_wisata" => [
+                "Pulau Kanawa",
+                "Danau Kelimutu",
+                "Goa Rangko Labuan Bajo"
+            ],
+            "deskripsi" => "Pulau Kanawa menawarkan laut biru sebening kristal, pantai pasir putih yang bersih, terumbu karang yang eksotis, dan pemandangan yang menakjubkan. Pulau Kanawa dan sekitarnya sangat indah, dan itu hanya gambaran singkat tentangnya. Pulau Kanawa tidak diragukan lagi adalah salah satu tujuan wisata terindah di Labuan Bajo, dan Anda harus mengunjunginya. Danau Kelimutu telah menggelitik minat mereka yang mengenalnya, baik melalui mitos, atmosfer, atau catatan sejarah. Pertimbangkan skenario berikut: tiga danau besar di puncak Gunung Kelimutu, masing-masing dengan warna yang berbeda dan kemampuan untuk berubah pada waktu tertentu. Tidak semua orang familiar dengan nama Goa Buaya, namun apapun sebutannya, semua orang mengenal keindahan tiada tara yang ditawarkan Goa Rangko.Pertimbangkan kemungkinan bahwa ada sebuah gua yang tersembunyi jauh di dalam interior bumi, diisi dengan air asin sebening kristal dan dihiasi dengan stalaktit yang menakjubkan",
+            "photo_wisata" => [
+                "https://i2.wp.com/www.ensiklopediaindonesia.com/wp-content/uploads/2013/02/pulau-kanawa-by-@anungadithya17.jpg?fit=1080%2C809&ssl=1&resize=1280%2C720",
+                "https://ilmugeografi.com/wp-content/uploads/2022/03/danau-kelimutu.jpg",
+                "https://www.tempatwisata.pro/users_media/3136/Goa%20Rangko%20NTT.jpg"
+            ],
+            "harga" => 850000
+        ]);
+        PaketWisata::create([
+            "nama_paket" => "Paket Hoqo Bajoe II",
+            "destinasi_wisata" => [
+                "Atol Mangiatan",
+                "Cunca Wulang",
+                "Desa Tradisional Bena, Bajawa"
+            ],
+            "deskripsi" => "Atol Mangiatan adalah pulau karang berbentuk lingkaran yang menurut Kamus Besar Bahasa Indonesia biasanya dikelilingi oleh danau atau laguna di tengahnya. Membaca definisinya saja sudah bisa merasakan betapa eksotisnya destinasi wisata di Labuan Bajo ini. Anda yang ingin memanjakan mata dan hati di lokasi yang sedikit berbeda di Flores dan Labuan Bajo bisa langsung menuju Cunca Wulang. Anda tidak hanya akan menemukan lembah Instagenic, tetapi Anda juga akan menemukan air terjun yang eksotis. Selain Wae Rebo yang menawan, ada desa lain di Flores bernama Kampung Bena yang tak kalah menarik dari Wae Rebo. Pemandangan panorama Gunung Inerie yang menjadi latar belakang desa yang menarik dapat dinikmati dari puncak desa megalitik yang terletak di atas bukit ini. Rumah-rumah yang dibangun dengan gaya tradisional dan tradisi leluhur yang masih dilestarikan menambah daya tarik desa yang eksotis. Saat berkunjung ke Flores, Anda wajib mampir ke sini!",
+            "photo_wisata" => [
+                "https://i0.wp.com/labuanbajotour.com/wp-content/uploads/2018/09/Pulau-Mangiatan-sumber-ig-sabanarancaak.jpg",
+                "https://phinemo.com/wp-content/uploads/2018/09/Air-Terjun-Cunca-Wulang-labuan-bajo.jpg",
+                "https://www.goodnewsfromindonesia.id/uploads/post/large-shutterstock-1800896062-d647ca383746bbfcf07e309162150ea7.jpg"
+            ],
+            "harga" => 1000000
+        ]);
+        PaketWisata::create([
+            "nama_paket" => "Paket Healing ala Hoqo Bajoe",
+            "destinasi_wisata" => [
+                "Taka Makassar",
+                "Manta Point",
+                "Goa Batu Cermin"
+            ],
+            "deskripsi" => "Jika Anda ingin melihat sesuatu yang unik di Flores, Taka Makassar adalah tempat yang baik untuk mulai mencari. Pulau pasir kecil ini, yang hanya muncul saat air surut dan tidak lebih besar dari lapangan sepak bola, hanya terlihat saat air surut. Taka Makassa dibuat lebih spektakuler dengan terumbu karang menakjubkan yang mengelilingi pulau, yang menambah keindahan alamnya. Ini adalah tujuan wisata paling populer di Flores, baik di kalangan penyelam pemula maupun berpengalaman. Selain bisa melihat alam bawah laut yang mempesona, Anda juga bisa melihat ikan Manta yang juga dikenal sebagai ikan pari raksasa, yang berenang dengan sangat ramah dari satu lokasi ke lokasi lain. Butuh beberapa saat sebelum kami dapat menyaksikan sendiri keajaiban Gua Batu Cermin. Namun, jika Anda tiba di waktu yang tepat, Anda akan mengerti mengapa lokasi ini diberi nama ini. Datanglah pada sore hari sebelum sore hari, sebagai aturan umum.",
+            "photo_wisata" => [
+                "https://i0.wp.com/rimbakita.com/wp-content/uploads/2020/03/taka-makassar.jpg",
+                "https://www.superlive.id/storage/superadventure/2018/05/24/88be89e52bd2.jpg",
+                "https://images.bisnis-cdn.com/posts/2020/07/07/1262931/goa-batu-cermin.jpg"
+            ],
+            "harga" => 725000
+        ]);
     }
 }

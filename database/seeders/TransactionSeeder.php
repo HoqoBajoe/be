@@ -32,5 +32,21 @@ class TransactionSeeder extends Seeder
             'total' => 1600000,
             'status' => 'Pending'
         ]);
+        Transaction::create([
+            'id_user' => 4,
+            'id_paket_wisata' => 2,
+            'metode' => 'DANA',
+            'pax' => 3,
+            'total' => 1800000,
+            'status' => 'Rejected'
+        ]);
+        Transaction::create([
+            'id_user' => 4,
+            'id_paket_wisata' => 5,
+            'metode' => 'GoPay',
+            'pax' => 5,
+            'total' => 3625000,
+            'status' => 'Accepted'
+        ]);
     }
 }

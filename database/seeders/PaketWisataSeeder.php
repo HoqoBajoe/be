@@ -56,7 +56,7 @@ class PaketWisataSeeder extends Seeder
             "deskripsi" => "Pulau Kanawa menawarkan laut biru sebening kristal, pantai pasir putih yang bersih, terumbu karang yang eksotis, dan pemandangan yang menakjubkan. Pulau Kanawa dan sekitarnya sangat indah, dan itu hanya gambaran singkat tentangnya. Pulau Kanawa tidak diragukan lagi adalah salah satu tujuan wisata terindah di Labuan Bajo, dan Anda harus mengunjunginya. Danau Kelimutu telah menggelitik minat mereka yang mengenalnya, baik melalui mitos, atmosfer, atau catatan sejarah. Pertimbangkan skenario berikut: tiga danau besar di puncak Gunung Kelimutu, masing-masing dengan warna yang berbeda dan kemampuan untuk berubah pada waktu tertentu. Tidak semua orang familiar dengan nama Goa Buaya, namun apapun sebutannya, semua orang mengenal keindahan tiada tara yang ditawarkan Goa Rangko.Pertimbangkan kemungkinan bahwa ada sebuah gua yang tersembunyi jauh di dalam interior bumi, diisi dengan air asin sebening kristal dan dihiasi dengan stalaktit yang menakjubkan",
             "photo_wisata" => [
                 "https://i2.wp.com/www.ensiklopediaindonesia.com/wp-content/uploads/2013/02/pulau-kanawa-by-@anungadithya17.jpg?fit=1080%2C809&ssl=1&resize=1280%2C720",
-                "https://ilmugeografi.com/wp-content/uploads/2022/03/danau-kelimutu.jpg",
+                "https://i2.wp.com/www.ensiklopediaindonesia.com/wp-content/uploads/2013/02/pulau-kanawa-by-@anungadithya17.jpg?fit=1080%2C809&ssl=1&resize=1280%2C720",
                 "https://www.tempatwisata.pro/users_media/3136/Goa%20Rangko%20NTT.jpg"
             ],
             "harga" => 850000
